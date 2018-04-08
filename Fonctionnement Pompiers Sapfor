@@ -1,0 +1,54 @@
+Application de gestion de formation des sapeurs pompiers. Le but est de pouvoir gerer le processus de candidature pour la session
+de formation des sapeurs-pompiers en vue d'acquérir des aptitudes (Unités de Valeurs).
+
+Pour lancer l'application:
+1- Ouvrir le programme dans IntelliJ ou Eclipse
+2- Lancer le serveur avec Tomcat ou GlassFisch
+3- Ouvrir un pluggin Firefox (Rested par exemple) 
+4- Dans la barre de l'url entrer l'url d'authentification 
+  localhost:8080/webresources/authentification/login?log=login1&mdp=mdp1 avec une methode POST
+  Cette authentification vous donne un SID (ou un jeton) que vous devez mettre en PathParam, dans l'url et 
+  qui permet d'enregistrer votre session
+  Les logins et mots de passe se trouvent dans la classe ControleurMetierImple.java
+  
+  Certaines methodes comme ajouter et supprimer une candidature requiert le statut de gestionnaire
+
+  
+  Ensuite vous pouvez faire les requêtes relatives aux sessions 
+    -consulter la liste des sessions
+    GET
+    localhost:8080/webresources/{sid}/sessions/listeSessionDTO
+    Le SID est mis en PathParam (exemple""localhost:8080/webresources/CF07A95D7CA7D2E3F9980B8C90D7A29A/sessions/listeSessionDTO")
+    
+    -Afficher la liste des candidatures enregistrée dans une session 
+    GET
+    localhost:8080/webresources/{sid}/sessions/{iud}
+    Exemple(localhost:8080/webresources/CF07A95D7CA7D2E3F9980B8C90D7A29A/sessions/session1)
+    
+    -Ajouter une candidature
+    @POST
+    localhost:8080/webresources/{sid}/sessions/cand
+    exemple (localhost:8080/webresources/7F43ECA841585198EFD73BF104A39B34/sessions/cand?idSessionUV=session10&qualite=formateurrr
+)
+
+  Ensuite vous pouvez faire les requêtes relatives aux candidatures
+    -Consulter la liste des candidatures
+    @GET
+    localhost:8080/webresources/{sid}/candidature
+    
+    -Supprimer une candidature en fonction de l'id (iud) de la candidature
+    @DELETE
+    localhost:8080/webresources/{sid}/candidature/{iud}
+    (Copier l'iud ou l'identifiant de la candidature à supprimer) et le passer dans l'url
+    
+    -AFficher les candidatures en fonction de la session
+    @GET
+    localhost:8080/webresources/{sid}/candidature/liste/{idSessionUV}
+
+    -Modifier le statut d'une candidature*/
+    @POST
+    localhost:8080/webresources/{sid}/candidature/{iud}/qualifiercand?statut=
+
+  Deconnexion 
+  @POST
+localhost:8080/webresources/authentification/{sid}/logout
